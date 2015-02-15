@@ -1,0 +1,21 @@
+.itunes-item {
+	border-bottom: 1px solid #ccc;
+}
+
+.itunes-item img {
+	float: left;
+	margin: 20px;
+}
+
+.search-input {
+	width: 100%;
+	height: 50px;
+	font-size: 35px;
+	color: #aaa;
+	padding: 8px;
+}
+
+.make-a-search {
+	text-align: center;
+	color: #aaa;
+}
