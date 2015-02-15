@@ -1,7 +1,17 @@
+/*
+ * ========================================================================
+ * Actions
+ * ========================================================================
+ */
 var actions = Reflux.createActions([
 	'iTunesApiSearch'
 ]);
 
+/*
+ * ========================================================================
+ * Data Stores
+ * ========================================================================
+ */
 var iTunesApiStore = Reflux.createStore({
 	init: function() {
 		this.listenTo(actions.iTunesApiSearch, this.search);
@@ -21,6 +31,11 @@ var iTunesApiStore = Reflux.createStore({
 	}
 });
 
+/*
+ * ========================================================================
+ * React Components
+ * ========================================================================
+ */
 var Search = React.createClass({
 	getInitialState: function() {
 		return {
@@ -126,5 +141,10 @@ var ResultCount = React.createClass({
 	}
 });
 
+/*
+ * ========================================================================
+ * Bootstrapping
+ * ========================================================================
+ */
 React.render(<Search />, document.querySelector('.search'));
 React.render(<ItunesResults />, document.querySelector('.results'));
