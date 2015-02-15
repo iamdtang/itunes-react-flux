@@ -22,8 +22,6 @@ var iTunesApiStore = Reflux.createStore({
 		var base = 'https://itunes.apple.com/search';
 		var url = base + '?' + $.param({ term: searchTerm }) + '&callback=?';
 
-		self.trigger('')
-
 		return $.getJSON(url).then(function(response) {
 			console.log(response);
 			self.trigger(response.results);
@@ -66,18 +64,13 @@ var ItunesResults = React.createClass({
 	mixins: [Reflux.connect(iTunesApiStore, 'results')],
 	getInitialState: function() {
 		return {
-			results: [],
-			searchTerm: null
+			results: []
 		};
 	},
 
 	render: function() {
-		if (this.state.results.length === 0 && !this.state.searchTerm) {
-			return <MakeASearch />;
-		} 
-
 		if (this.state.results.length === 0) {
-			return <NoResults />;
+			return <MakeASearch />;
 		}
 
 		return (
@@ -110,16 +103,6 @@ var MakeASearch = React.createClass({
 		return (
 			<div className="make-a-search">
 				<p>Please make a search ...</p>
-			</div>
-		);
-	}
-});
-
-var NoResults = React.createClass({
-	render: function() {
-		return (
-			<div>
-				<p>No results found.</p>
 			</div>
 		);
 	}
