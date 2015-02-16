@@ -34,23 +34,49 @@ var iTunesApiStore = Reflux.createStore({
  * React Components
  * ========================================================================
  */
-var Search = React.createClass({
+var App = React.createClass({
+	mixins: [Reflux.connect(iTunesApiStore, 'results')],
 	getInitialState: function() {
 		return {
-			searchTerm: 'limp bizkit'
-		}
+			results: []
+		};
+	},
+	
+	search: function(term) {
+		this.setState({ search: term });
+		actions.iTunesApiSearch(term);
 	},
 
+	render: function() {
+		var content;
+
+		if (this.state.search && this.state.results.length > 0) {
+			content = <ItunesResults results={this.state.results} term={this.state.search} />;
+		} else {
+			content = <MakeASearch />;
+		}
+
+		return (
+			<div className="container">
+				<h1>iTunes Search App</h1>
+				<Search search={this.search} />
+				{content}
+			</div>
+		);
+	}
+});
+
+var Search = React.createClass({
 	handleSearch: function(e) {
 		e.preventDefault();
-		actions.iTunesApiSearch(this.refs.searchTerm.getDOMNode().value);
+		this.props.search(this.refs.searchTerm.getDOMNode().value);
 	},
 
 	render: function() {
 		return (
 			<form onSubmit={this.handleSearch}>
 				<div className="form-group">
-					<input type="text" ref="searchTerm" value={this.state.searchTerm} className="search-input" />
+					<input type="text" ref="searchTerm" defaultValue="limp bizkit" className="search-input" />
 				</div>
 				<div className="form-group">
 					<input type="submit" value="Search" className="btn btn-primary" />
@@ -61,22 +87,11 @@ var Search = React.createClass({
 });
 
 var ItunesResults = React.createClass({
-	mixins: [Reflux.connect(iTunesApiStore, 'results')],
-	getInitialState: function() {
-		return {
-			results: []
-		};
-	},
-
 	render: function() {
-		if (this.state.results.length === 0) {
-			return <MakeASearch />;
-		}
-
 		return (
 			<div>
-				<ResultCount count={this.state.results.length} />
-				{this.state.results.map(function(item) {
+				<ResultCount count={this.props.results.length} term={this.props.term} />
+				{this.props.results.map(function(item) {
 					return <ItunesItemResult item={item} />
 				})}
 			</div>
@@ -113,9 +128,9 @@ var ResultCount = React.createClass({
 		var message;
 
 		if (this.props.count === 1) {
-			message = this.props.count + " result found.";
+			message = this.props.count + " result found for " + this.props.term;
 		} else {
-			message = this.props.count + " results found.";
+			message = this.props.count + " results found for " + this.props.term;
 		}
 
 		return (
@@ -129,5 +144,4 @@ var ResultCount = React.createClass({
  * Bootstrapping
  * ========================================================================
  */
-React.render(<Search />, document.querySelector('.search'));
-React.render(<ItunesResults />, document.querySelector('.results'));
+React.render(<App />, document.body);
