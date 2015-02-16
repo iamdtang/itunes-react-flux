@@ -91,6 +91,11 @@ var Search = React.createClass({
 });
 
 var ItunesResults = React.createClass({
+	propTypes: {
+		results: React.PropTypes.array.isRequired,
+		term: React.PropTypes.string.isRequired
+	},
+
 	render: function() {
 		return (
 			<div>
@@ -104,6 +109,10 @@ var ItunesResults = React.createClass({
 });
 
 var ItunesItemResult = React.createClass({
+	propTypes: {
+		item: React.PropTypes.object.isRequired    
+	},
+
 	render: function() {
 		return (
 			<div className="itunes-item clearfix">
@@ -128,6 +137,11 @@ var MakeASearch = React.createClass({
 });
 
 var ResultCount = React.createClass({
+	propTypes: {
+		count: React.PropTypes.number.isRequired,
+		term: React.PropTypes.string.isRequired    
+	},
+
 	render: function() {
 		var message;
 
