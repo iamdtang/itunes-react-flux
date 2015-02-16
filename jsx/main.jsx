@@ -42,7 +42,7 @@ var App = React.createClass({
 		};
 	},
 	
-	search: function(term) {
+	handleSearch: function(term) {
 		this.setState({ search: term });
 		actions.iTunesApiSearch(term);
 	},
@@ -59,7 +59,7 @@ var App = React.createClass({
 		return (
 			<div className="container">
 				<h1>iTunes Search App</h1>
-				<Search search={this.search} />
+				<Search onSearch={this.handleSearch} />
 				{content}
 			</div>
 		);
@@ -68,17 +68,17 @@ var App = React.createClass({
 
 var Search = React.createClass({
 	propTypes: {
-		search: React.PropTypes.func.isRequired
+		onSearch: React.PropTypes.func.isRequired
 	},
 
-	handleSearch: function(e) {
+	handleSubmit: function(e) {
 		e.preventDefault();
-		this.props.search(this.refs.searchTerm.getDOMNode().value);
+		this.props.onSearch(this.refs.searchTerm.getDOMNode().value);
 	},
 
 	render: function() {
 		return (
-			<form onSubmit={this.handleSearch}>
+			<form onSubmit={this.handleSubmit}>
 				<div className="form-group">
 					<input type="text" ref="searchTerm" defaultValue="limp bizkit" className="search-input" />
 				</div>
