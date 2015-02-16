@@ -67,6 +67,10 @@ var App = React.createClass({
 });
 
 var Search = React.createClass({
+	propTypes: {
+		search: React.PropTypes.func.isRequired
+	},
+
 	handleSearch: function(e) {
 		e.preventDefault();
 		this.props.search(this.refs.searchTerm.getDOMNode().value);
